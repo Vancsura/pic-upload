@@ -1,0 +1,19 @@
+spring:
+  resources:
+    static-locations: classpath:/public
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    platform: mysql
+    url: jdbc:mysql://localhost:3306/pic_upload?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&verifyServerCertificate=false&useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: test1234
