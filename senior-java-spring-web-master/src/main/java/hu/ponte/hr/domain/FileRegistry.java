@@ -1,7 +1,7 @@
 package hu.ponte.hr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import hu.ponte.hr.services.UploadResponse;
+import hu.ponte.hr.services.cloudinary.UploadResponse;
 import lombok.Data;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
@@ -25,13 +25,11 @@ public class FileRegistry {
     private Long fileSize;
     @Column(name = "media_type")
     private String mediaType;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "category")
-    private String category = "default";
     @Column(name = "upload_datetime")
     @JsonFormat(locale = "hu", shape = JsonFormat.Shape.STRING, pattern = "yyyy. MM. dd. HH:mm:ss (Z)")
     private ZonedDateTime uploadDateTime = ZonedDateTime.now();
+    @Column(name = "digital_sign")
+    private String digitalSign;
 
     public FileRegistry() {
 

@@ -1,4 +1,4 @@
-package hu.ponte.hr.services;
+package hu.ponte.hr.services.cloudinary;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

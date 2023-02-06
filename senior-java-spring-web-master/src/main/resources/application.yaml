@@ -17,3 +17,11 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: test1234
+
+cloudinary.cloud_name: dt7earmc9
+cloudinary.api_key: 742953451181281
+cloudinary.api_secret: Uc0bJZm5MjONVDiRhejlvjU_yWc
+
+server.tomcat.max-http-form-post-size: 2097152
+
+server.tomcat.max-swallow-size: 2097152

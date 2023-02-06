@@ -27,12 +27,4 @@ public class AppConfig
 		multipartResolver.setMaxUploadSize(2097152);  // 2MB
 		return multipartResolver;
 	}
-
-//	@Override
-//	public void addCorsMappings(CorsRegistry registry) {
-//		registry.addMapping("/**")
-//				.allowedOrigins("*")
-//				.allowedMethods("GET", "POST", "DELETE", "PUT")
-//				.allowCredentials(true);
-//	}
 }

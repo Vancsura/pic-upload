@@ -7,7 +7,6 @@ import hu.ponte.hr.domain.FileRegistry;
 import hu.ponte.hr.dto.FileResource;
 import hu.ponte.hr.repository.UploadRepository;
 import hu.ponte.hr.services.FileUploader;
-import hu.ponte.hr.services.UploadResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;

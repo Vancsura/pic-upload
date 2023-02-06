@@ -21,8 +21,6 @@ public abstract class FileUploader {
 
     public Long processFile(CommonsMultipartFile commonsMultipartFile, String title, String category) throws IOException {
         FileRegistry fileRegistry = storeFile(commonsMultipartFile, category);
-        fileRegistry.setTitle(title);
-        fileRegistry.setCategory(category);
 
         Long id = uploadRepository.save(fileRegistry).getId();
 
