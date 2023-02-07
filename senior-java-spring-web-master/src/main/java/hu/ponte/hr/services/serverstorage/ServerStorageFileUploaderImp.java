@@ -4,6 +4,7 @@ import hu.ponte.hr.domain.FileRegistry;
 import hu.ponte.hr.dto.FileResource;
 import hu.ponte.hr.repository.UploadRepository;
 import hu.ponte.hr.services.FileUploader;
+import hu.ponte.hr.services.ImageStore;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -21,8 +22,8 @@ public class ServerStorageFileUploaderImp extends FileUploader {
     private HttpServletRequest request;
 
     @Autowired
-    public ServerStorageFileUploaderImp(UploadRepository uploadRepository, HttpServletRequest request) {
-        super(uploadRepository);
+    public ServerStorageFileUploaderImp(UploadRepository uploadRepository, ImageStore imageStore, HttpServletRequest request) {
+        super(uploadRepository, imageStore);
         this.request = request;
     }
 

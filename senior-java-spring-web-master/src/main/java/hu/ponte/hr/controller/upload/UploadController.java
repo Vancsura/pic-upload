@@ -1,8 +1,6 @@
 package hu.ponte.hr.controller.upload;
 
 
-
-import hu.ponte.hr.dto.FormDataWithFile;
 import hu.ponte.hr.services.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +27,8 @@ public class UploadController
     }
 
     @PostMapping("/post")
-    public ResponseEntity<Long> uploadFile(@RequestParam("file") @NotNull @NotBlank CommonsMultipartFile file) throws IOException {
+    public ResponseEntity<Long> uploadFile(@RequestParam("file") @NotNull @NotBlank CommonsMultipartFile file) throws Exception {
 
-        return new ResponseEntity<>(fileUploader.processFile(file, null, null), HttpStatus.OK);
+        return new ResponseEntity<>(fileUploader.processFile(file, null), HttpStatus.OK);
     }
 }

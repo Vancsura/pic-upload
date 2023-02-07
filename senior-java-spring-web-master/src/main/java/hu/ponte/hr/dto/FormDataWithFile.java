@@ -7,14 +7,12 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 public class FormDataWithFile {
 
     private CommonsMultipartFile file;
-    private String title;
     private String category;
 
 
     @Override
     public String toString() {
         return "FormDataWithFile{" +
-                "title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", fileSize='" + file.getSize() + '\'' +
                 '}';
