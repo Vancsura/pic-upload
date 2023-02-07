@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,14 +19,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImageStore {
     private final UploadRepository uploadRepository;
+    private final SignService signService;
 
-    public List<ImageMeta> listAllImages(){
-       return uploadRepository.findAll().stream().map(this::mapToImageMeta).collect(Collectors.toList());
+    public List<ImageMeta> listAllImages() {
+        return uploadRepository.findAll().stream().map(this::mapToImageMeta).collect(Collectors.toList());
     }
 
-    private ImageMeta mapToImageMeta(FileRegistry fileRegistry){
+    private ImageMeta mapToImageMeta(FileRegistry fileRegistry) {
         ImageMeta imageMeta = new ImageMeta();
-        imageMeta.setId(fileRegistry.getId());
+        imageMeta.setId(fileRegistry.getId().toString());
         imageMeta.setSize(fileRegistry.getFileSize());
         imageMeta.setName(fileRegistry.getOriginalFileName());
         imageMeta.setMimeType(fileRegistry.getMediaType());
@@ -34,5 +38,15 @@ public class ImageStore {
 
     public String getImagePathById(Long id) {
         return uploadRepository.findById(id).orElseThrow(EntityNotFoundException::new).getFilePath();
+    }
+
+    public String makeSignature(String fileName) throws Exception {
+
+        Path fileDetails = Path.of("C:\\Users\\PC\\IdeaProjects\\pic-upload\\" +
+                "senior-java-spring-web-master\\src\\main\\resources\\config\\keys\\key.private");
+
+        byte[] strPk = Files.readAllBytes(fileDetails);
+
+        return signService.signSHA256RSA(fileName, strPk);
     }
 }

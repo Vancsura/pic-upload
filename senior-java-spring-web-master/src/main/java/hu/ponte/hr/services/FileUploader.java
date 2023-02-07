@@ -13,16 +13,23 @@ import java.util.List;
 public abstract class FileUploader {
 
     protected UploadRepository uploadRepository;
+    protected ImageStore imageStore;
 
     @Autowired
-    public FileUploader(UploadRepository uploadRepository) {
+    public FileUploader(UploadRepository uploadRepository, ImageStore imageStore) {
         this.uploadRepository = uploadRepository;
+        this.imageStore = imageStore;
     }
 
-    public Long processFile(CommonsMultipartFile commonsMultipartFile, String title, String category) throws IOException {
+    public Long processFile(CommonsMultipartFile commonsMultipartFile, String category) throws Exception {
         FileRegistry fileRegistry = storeFile(commonsMultipartFile, category);
 
         Long id = uploadRepository.save(fileRegistry).getId();
+
+        String fileName = fileRegistry.getOriginalFileName();
+        String sign = imageStore.makeSignature(fileName);
+        fileRegistry.setDigitalSign(sign);
+        uploadRepository.save(fileRegistry);
 
         return id;
     }

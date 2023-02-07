@@ -2,14 +2,16 @@ package hu.ponte.hr.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hu.ponte.hr.services.cloudinary.UploadResponse;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Table(name = "file_registry")
 public class FileRegistry {
 
@@ -28,7 +30,7 @@ public class FileRegistry {
     @Column(name = "upload_datetime")
     @JsonFormat(locale = "hu", shape = JsonFormat.Shape.STRING, pattern = "yyyy. MM. dd. HH:mm:ss (Z)")
     private ZonedDateTime uploadDateTime = ZonedDateTime.now();
-    @Column(name = "digital_sign")
+    @Column(name = "digital_sign", columnDefinition = "TEXT")
     private String digitalSign;
 
     public FileRegistry() {
