@@ -13,12 +13,12 @@ import java.util.List;
 public abstract class FileUploader {
 
     protected UploadRepository uploadRepository;
-    protected ImageStore imageStore;
+    protected SignService signService;
 
     @Autowired
-    public FileUploader(UploadRepository uploadRepository, ImageStore imageStore) {
+    public FileUploader(UploadRepository uploadRepository, SignService signService) {
         this.uploadRepository = uploadRepository;
-        this.imageStore = imageStore;
+        this.signService = signService;
     }
 
     public Long processFile(CommonsMultipartFile commonsMultipartFile, String category) throws Exception {
@@ -27,7 +27,7 @@ public abstract class FileUploader {
         Long id = uploadRepository.save(fileRegistry).getId();
 
         String fileName = fileRegistry.getOriginalFileName();
-        String sign = imageStore.makeSignature(fileName);
+        String sign = signService.makeSignature(fileName);
         fileRegistry.setDigitalSign(sign);
         uploadRepository.save(fileRegistry);
 

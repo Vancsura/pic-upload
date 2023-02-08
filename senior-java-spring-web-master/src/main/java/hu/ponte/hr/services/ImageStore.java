@@ -25,7 +25,7 @@ public class ImageStore {
         return uploadRepository.findAll().stream().map(this::mapToImageMeta).collect(Collectors.toList());
     }
 
-    private ImageMeta mapToImageMeta(FileRegistry fileRegistry) {
+    public ImageMeta mapToImageMeta(FileRegistry fileRegistry) {
         ImageMeta imageMeta = new ImageMeta();
         imageMeta.setId(fileRegistry.getId().toString());
         imageMeta.setSize(fileRegistry.getFileSize());
@@ -38,15 +38,5 @@ public class ImageStore {
 
     public String getImagePathById(Long id) {
         return uploadRepository.findById(id).orElseThrow(EntityNotFoundException::new).getFilePath();
-    }
-
-    public String makeSignature(String fileName) throws Exception {
-
-        Path fileDetails = Path.of("C:\\Users\\PC\\IdeaProjects\\pic-upload\\" +
-                "senior-java-spring-web-master\\src\\main\\resources\\config\\keys\\key.private");
-
-        byte[] strPk = Files.readAllBytes(fileDetails);
-
-        return signService.signSHA256RSA(fileName, strPk);
     }
 }

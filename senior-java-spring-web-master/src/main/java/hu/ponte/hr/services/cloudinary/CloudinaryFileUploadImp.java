@@ -8,6 +8,7 @@ import hu.ponte.hr.dto.FileResource;
 import hu.ponte.hr.repository.UploadRepository;
 import hu.ponte.hr.services.FileUploader;
 import hu.ponte.hr.services.ImageStore;
+import hu.ponte.hr.services.SignService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -25,8 +26,8 @@ public class CloudinaryFileUploadImp extends FileUploader {
 
     private Cloudinary cloudinary;
 
-    public CloudinaryFileUploadImp(UploadRepository uploadRepository, ImageStore imageStore, Cloudinary cloudinary) {
-        super(uploadRepository, imageStore);
+    public CloudinaryFileUploadImp(UploadRepository uploadRepository, SignService signService, Cloudinary cloudinary) {
+        super(uploadRepository, signService);
         this.cloudinary = cloudinary;
     }
 
