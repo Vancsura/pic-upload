@@ -22,7 +22,7 @@ public class SignService
     private final Path publicFileDetails = Path.of("C:\\Users\\PC\\IdeaProjects\\pic-upload\\" +
                 "senior-java-spring-web-master\\src\\main\\resources\\config\\keys\\key.pub");
 
-    public PrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    private PrivateKey getPrivateKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         byte[] privateKeyBytes = Files.readAllBytes(privateFileDetails);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
@@ -31,7 +31,7 @@ public class SignService
         return keyFactory.generatePrivate(keySpec);
     }
 
-    public PublicKey getPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    private PublicKey getPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
 
         byte[] publicKeyBytes = Files.readAllBytes(publicFileDetails);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
@@ -43,6 +43,7 @@ public class SignService
     public String makeSignature(String fileName) throws Exception {
 
         byte[] messageBytes = fileName.getBytes();
+        Path path = Paths.get("digital_signature");
 
         //Signature generating
         Signature signature = Signature.getInstance("SHA256withRSA");
@@ -50,20 +51,25 @@ public class SignService
         signature.update(messageBytes);
         byte[] digitalSignature = signature.sign();
 
-        Files.write(Paths.get("digital_signature"), digitalSignature);
+//        Files.write(path, digitalSignature);
+        generateFile(digitalSignature, path);
 
-        //Verifying the Signature
-        signature = Signature.getInstance("SHA256withRSA");
-        signature.initVerify(getPublicKey());
-        signature.update(messageBytes);
-        byte[] receivedSignature = Files.readAllBytes(Paths.get("digital_signature"));
-        boolean isCorrect = signature.verify(receivedSignature);
-
-        if (isCorrect) {
+        if (verifySignature(messageBytes, path)) {
             return Base64.getEncoder().encodeToString(digitalSignature);
         } else {
             return null;
         }
+    }
 
+    private boolean verifySignature(byte[] bytes, Path path) throws SignatureException, NoSuchAlgorithmException, IOException, InvalidKeyException, InvalidKeySpecException {
+        Signature signature = Signature.getInstance("SHA256withRSA");
+        signature.initVerify(getPublicKey());
+        signature.update(bytes);
+        byte[] receivedSignature = Files.readAllBytes(path);
+        return signature.verify(receivedSignature);
+    }
+
+    private void generateFile(byte[] digitalSignature, Path path) throws IOException {
+        Files.write(path, digitalSignature);
     }
 }

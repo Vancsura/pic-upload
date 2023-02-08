@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ImageStore {
     private final UploadRepository uploadRepository;
-    private final SignService signService;
 
     public List<ImageMeta> listAllImages() {
         return uploadRepository.findAll().stream().map(this::mapToImageMeta).collect(Collectors.toList());
