@@ -14,7 +14,6 @@ package hu.ponte.hr.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -26,11 +25,9 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-    private final MessageSource messageSource;
 
     @Autowired
-    public GlobalExceptionHandler(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    public GlobalExceptionHandler() {
     }
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)

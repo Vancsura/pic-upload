@@ -23,5 +23,4 @@ cloudinary.api_key: 742953451181281
 cloudinary.api_secret: Uc0bJZm5MjONVDiRhejlvjU_yWc
 
 server.tomcat.max-http-form-post-size: 2097152
-
 server.tomcat.max-swallow-size: 2097152

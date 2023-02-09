@@ -1,5 +1,8 @@
 package hu.ponte.hr.services;
 
+import hu.ponte.hr.exception.GlobalExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +20,8 @@ import java.util.Base64;
 @Transactional
 public class SignService
 {
+
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final Path privateFileDetails = Path.of("C:\\Users\\PC\\IdeaProjects\\pic-upload\\" +
                 "senior-java-spring-web-master\\src\\main\\resources\\config\\keys\\key.private");
     private final Path publicFileDetails = Path.of("C:\\Users\\PC\\IdeaProjects\\pic-upload\\" +
@@ -27,8 +32,10 @@ public class SignService
         byte[] privateKeyBytes = Files.readAllBytes(privateFileDetails);
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKeyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
+        logger.info("Private key read and generated successfully.");
 
-        return keyFactory.generatePrivate(keySpec);
+        return privateKey;
     }
 
     private PublicKey getPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
@@ -36,8 +43,10 @@ public class SignService
         byte[] publicKeyBytes = Files.readAllBytes(publicFileDetails);
         X509EncodedKeySpec spec = new X509EncodedKeySpec(publicKeyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        PublicKey publicKey = keyFactory.generatePublic(spec);
+        logger.info("Public key read and generated successfully.");
 
-        return keyFactory.generatePublic(spec);
+        return publicKey;
     }
 
     public String makeSignature(String fileName) throws Exception {
@@ -45,13 +54,11 @@ public class SignService
         byte[] messageBytes = fileName.getBytes();
         Path path = Paths.get("digital_signature");
 
-        //Signature generating
         Signature signature = Signature.getInstance("SHA256withRSA");
         signature.initSign(getPrivateKey());
         signature.update(messageBytes);
         byte[] digitalSignature = signature.sign();
 
-//        Files.write(path, digitalSignature);
         generateFile(digitalSignature, path);
 
         if (verifySignature(messageBytes, path)) {

@@ -31,7 +31,7 @@ public class SignTest
 	};
 
 	@Test
-	public void test_01() throws Exception {
+	public void test_makeSignature() throws Exception {
 
 		String digitalSign = signService.makeSignature("cat.jpg");
 

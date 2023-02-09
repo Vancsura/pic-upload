@@ -7,19 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import java.io.IOException;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 @RestController
 @Component
 @RequestMapping("api/file")
-public class UploadController
-{
+public class UploadController {
 
-    private FileUploader fileUploader;
+    private final FileUploader fileUploader;
 
     @Autowired
     public UploadController(FileUploader fileUploader) {
@@ -28,7 +27,6 @@ public class UploadController
 
     @PostMapping("/post")
     public ResponseEntity<Long> uploadFile(@RequestParam("file") @NotNull @NotBlank CommonsMultipartFile file) throws Exception {
-
         return new ResponseEntity<>(fileUploader.processFile(file, null), HttpStatus.OK);
     }
 }

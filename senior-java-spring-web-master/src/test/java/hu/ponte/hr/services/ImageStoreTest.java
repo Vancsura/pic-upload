@@ -1,7 +1,8 @@
 package hu.ponte.hr.services;
 
 import hu.ponte.hr.domain.FileRegistry;
-import hu.ponte.hr.repository.UploadRepository;
+import hu.ponte.hr.domain.ImageMeta;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,14 +10,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 class ImageStoreTest {
 
-    @Autowired
-    private UploadRepository uploadRepository;
-    private FileRegistry fileRegistry = new FileRegistry();
+    private FileRegistry fileRegistry;
     @Autowired
     private ImageStore imageStore;
+
+    @BeforeEach
+    void init() {
+        fileRegistry = new FileRegistry();
+    }
+
     @Test
     void test_findPictureById() {
 
@@ -41,7 +47,10 @@ class ImageStoreTest {
 
     @Test
     void test_listAllImages() {
-//        List<FileRegistry>
+        List<ImageMeta> pictures = imageStore.listAllImages();
+
+        assertNotEquals(0, pictures.size());
+
     }
 
 }
